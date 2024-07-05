@@ -1,0 +1,21 @@
+# usara una imagen base de Python
+FROM python:3.8-slim
+
+# instalar las dependecias requeridas
+RUN apt-get update && \
+    apt-get install -y \
+    ansible \
+    && rm -rf /var/lib/apt/lists/*
+
+# copiar la aplicación flask al contenedor
+WORKDIR /app
+COPY . .
+
+# instalar las dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# exponer el puerto en el que corre la aplicación Flask
+EXPOSE 5000
+
+# comando para ejecutar tu aplicación Flask
+CMD ["python", "app.py"]
